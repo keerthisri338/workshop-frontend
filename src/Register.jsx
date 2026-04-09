@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Register() {
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: 'user'
-  });
+function Register() {
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  const register = async () => {
-    await axios.post('http://localhost:8080/register', data);
-    alert("Registered Successfully");
+  const handleRegister = () => {
+    if (username !== "") {
+      alert("Registered Successfully!");
+      navigate("/");
+    } else {
+      alert("Enter username");
+    }
   };
 
   return (
     <div>
       <h2>Register</h2>
-      <input placeholder="Name" onChange={e => setData({ ...data, name: e.target.value })} />
-      <input placeholder="Email" onChange={e => setData({ ...data, email: e.target.value })} />
-      <input type="password" placeholder="Password" onChange={e => setData({ ...data, password: e.target.value })} />
-      <button onClick={register}>Register</button>
+
+      <input
+        type="text"
+        placeholder="Enter username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <br /><br />
+
+      <button onClick={handleRegister}>Register</button>
     </div>
   );
 }
+
+export default Register;

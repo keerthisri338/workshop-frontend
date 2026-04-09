@@ -1,27 +1,39 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-export default function Login() {
-  const [data, setData] = useState({ email: '', password: '' });
+function Login() {
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  const login = async () => {
-    const res = await axios.post('http://localhost:8080/login', data);
-    if (res.data) {
-      localStorage.setItem("user", JSON.stringify(res.data));
-      navigate('/dashboard');
+  const handleLogin = () => {
+    if (username !== "") {
+      localStorage.setItem("user", username);
+      navigate("/home");
     } else {
-      alert("Invalid Credentials");
+      alert("Enter username");
     }
   };
 
   return (
     <div>
       <h2>Login</h2>
-      <input placeholder="Email" onChange={e => setData({ ...data, email: e.target.value })} />
-      <input type="password" placeholder="Password" onChange={e => setData({ ...data, password: e.target.value })} />
-      <button onClick={login}>Login</button>
+
+      <input
+        type="text"
+        placeholder="Enter username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <br /><br />
+
+      <button onClick={handleLogin}>Login</button>
+
+      <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }
+
+export default Login;
