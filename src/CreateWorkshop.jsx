@@ -1,40 +1,67 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
-export default function CreateWorkshop() {
-  const [data, setData] = useState({
-    title: '',
-    description: ''
-  });
+function CreateWorkshop() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [meetingLink, setMeetingLink] = useState("");
 
-  const create = async () => {
+  const saveWorkshop = async () => {
     try {
       await axios.post(
-        'https://workshop-backend-2kh4.onrender.com/workshops',
-        data
+        "https://workshop-backend-2kh4.onrender.com/workshops",
+        {
+          title: title,
+          description: description
+        }
       );
-      alert("Workshop Created");
+
+      alert("Workshop Created Successfully");
+
+      setTitle("");
+      setDescription("");
+      setMeetingLink("");
     } catch (error) {
-      alert("Not saved to backend");
       console.log(error);
+      alert("Save Failed");
     }
   };
 
   return (
-    <div>
-      <h2>Create Workshop</h2>
+    <div style={{ padding: "20px" }}>
+      <h2>Add Workshop</h2>
 
       <input
+        type="text"
         placeholder="Title"
-        onChange={e => setData({ ...data, title: e.target.value })}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
+      <br /><br />
 
       <input
+        type="text"
         placeholder="Description"
-        onChange={e => setData({ ...data, description: e.target.value })}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
+      <br /><br />
 
-      <button onClick={create}>Create</button>
+      <input
+        type="text"
+        placeholder="Meeting Link"
+        value={meetingLink}
+        onChange={(e) => setMeetingLink(e.target.value)}
+      />
+      <br /><br />
+
+      <input type="file" />
+      <br /><br />
+
+      <button onClick={saveWorkshop}>Save</button>
+      <button onClick={() => window.history.back()}>Back</button>
     </div>
   );
 }
+
+export default CreateWorkshop;
