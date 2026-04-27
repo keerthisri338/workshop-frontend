@@ -9,22 +9,30 @@ export default function Dashboard() {
   }, []);
 
   const fetchWorkshops = async () => {
-    const res = await axios.get('http://localhost:8080/workshops');
+    const res = await axios.get(
+      'https://workshop-backend-2kh4.onrender.com/workshops'
+    );
     setWorkshops(res.data);
   };
 
   const enroll = async (id) => {
     const user = JSON.parse(localStorage.getItem("user"));
-    await axios.post('http://localhost:8080/enroll', {
-      userId: user.id,
-      workshopId: id
-    });
+
+    await axios.post(
+      'https://workshop-backend-2kh4.onrender.com/enroll',
+      {
+        userId: user.id,
+        workshopId: id
+      }
+    );
+
     alert("Enrolled Successfully");
   };
 
   return (
     <div>
       <h2>Workshops</h2>
+
       {workshops.map(w => (
         <div key={w.id}>
           <h3>{w.title}</h3>
