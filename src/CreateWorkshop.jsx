@@ -11,8 +11,16 @@ export default function CreateWorkshop() {
   });
 
   const create = async () => {
-    await axios.post('http://localhost:8080/workshops', data);
-    alert("Workshop Created");
+    try {
+      await axios.post(
+        'https://workshop-backend-2kh4.onrender.com/workshops',
+        data
+      );
+      alert("Workshop Created");
+    } catch (error) {
+      alert("Backend connection failed");
+      console.log(error);
+    }
   };
 
   return (
