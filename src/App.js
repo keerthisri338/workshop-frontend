@@ -6,13 +6,11 @@ const API = "https://workshop-backend-2kh4.onrender.com";
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
-
   const [registeredUser, setRegisteredUser] = useState("admin");
   const [registeredPass, setRegisteredPass] = useState("admin123");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [meetingLink, setMeetingLink] = useState("");
@@ -33,13 +31,12 @@ function App() {
       alert("Please enter username and password");
       return;
     }
-
     setRegisteredUser(username);
     setRegisteredPass(password);
     setIsRegister(false);
     setUsername("");
     setPassword("");
-    alert("Registration successful ✅ Now login");
+    alert("Registered successfully ✅ Please login");
   };
 
   const loadWorkshops = async () => {
@@ -48,7 +45,6 @@ function App() {
       setWorkshops(res.data);
     } catch (err) {
       console.log(err);
-      alert("Backend not connected");
     }
   };
 
@@ -82,32 +78,28 @@ function App() {
 
   if (!loggedIn) {
     return (
-      <div style={styles.loginPage}>
-        <div style={styles.leftBox}>
-          <h1>Workshop Management System</h1>
+      <div style={styles.authPage}>
+        <div style={styles.heroBox}>
+          <h1>SkillUp Academy</h1>
           <p>
-            A modern React + Spring Boot application for managing workshops,
-            meeting links and training sessions.
+            A professional workshop platform for students to explore learning
+            sessions, join meetings and manage academic events.
           </p>
-          <div style={styles.features}>
-            <span>✔ React Frontend</span>
-            <span>✔ Spring Boot Backend</span>
-            <span>✔ Render Deployment</span>
-            <span>✔ REST API Integration</span>
+
+          <div style={styles.heroCards}>
+            <div>🎓 Expert Faculty Sessions</div>
+            <div>💻 Online Workshop Access</div>
+            <div>📚 Skill-Based Learning</div>
           </div>
         </div>
 
-        <div style={styles.loginCard}>
-          <h1 style={styles.logo}>{isRegister ? "Create Account" : "Login"}</h1>
-          <p style={styles.subtitle}>
-            {isRegister
-              ? "Register new user credentials"
-              : "Enter credentials to continue"}
-          </p>
+        <div style={styles.authCard}>
+          <h2>{isRegister ? "Create Account" : "Welcome Back"}</h2>
+          <p>{isRegister ? "Register to continue" : "Login to your portal"}</p>
 
           <input
             style={styles.input}
-            placeholder="Enter Username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -115,22 +107,22 @@ function App() {
           <input
             style={styles.input}
             type="password"
-            placeholder="Enter Password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button style={styles.button} onClick={isRegister ? register : login}>
+          <button style={styles.primaryBtn} onClick={isRegister ? register : login}>
             {isRegister ? "Register" : "Login"}
           </button>
 
-          <p style={styles.linkText} onClick={() => setIsRegister(!isRegister)}>
+          <p style={styles.switchText} onClick={() => setIsRegister(!isRegister)}>
             {isRegister
               ? "Already have an account? Login"
-              : "New user? Register here"}
+              : "New student? Register here"}
           </p>
 
-          <p style={styles.hint}>Default: admin / admin123</p>
+          <small>Demo login: admin / admin123</small>
         </div>
       </div>
     );
@@ -139,35 +131,59 @@ function App() {
   return (
     <div style={styles.page}>
       <nav style={styles.navbar}>
-        <div>
-          <h2>Workshop Portal</h2>
-          <p>Frontend connected with deployed backend</p>
+        <div style={styles.brand}>
+          <span style={styles.logo}>S</span>
+          <div>
+            <h2>SkillUp Academy</h2>
+            <p>Professional Workshop Management Portal</p>
+          </div>
         </div>
 
-        <button style={styles.logout} onClick={() => setLoggedIn(false)}>
-          Logout
-        </button>
+        <div style={styles.navLinks}>
+          <a href="#home">Home</a>
+          <a href="#workshops">Workshops</a>
+          <a href="#contact">Contact</a>
+          <button style={styles.logout} onClick={() => setLoggedIn(false)}>
+            Logout
+          </button>
+        </div>
       </nav>
 
-      <div style={styles.stats}>
+      <section id="home" style={styles.heroSection}>
+        <div>
+          <h1>Upgrade Your Skills With Live Workshops</h1>
+          <p>
+            Join expert-led training sessions, improve your technical knowledge
+            and manage all workshops in one beautiful portal.
+          </p>
+          <button style={styles.heroBtn}>Explore Workshops</button>
+        </div>
+
+        <div style={styles.heroImage}>
+          <h2>Live Learning</h2>
+          <p>Interactive sessions • Meeting links • Faculty guidance</p>
+        </div>
+      </section>
+
+      <section style={styles.stats}>
         <div style={styles.statCard}>
           <h2>{workshops.length}</h2>
-          <p>Total Workshops</p>
+          <p>Workshops</p>
         </div>
         <div style={styles.statCard}>
-          <h2>Live</h2>
-          <p>Backend Status</p>
+          <h2>24/7</h2>
+          <p>Learning Access</p>
         </div>
         <div style={styles.statCard}>
-          <h2>Render</h2>
-          <p>Deployment</p>
+          <h2>100%</h2>
+          <p>Student Friendly</p>
         </div>
-      </div>
+      </section>
 
-      <div style={styles.container}>
+      <section id="workshops" style={styles.content}>
         <div style={styles.formCard}>
-          <h2>Add New Workshop</h2>
-          <p style={styles.smallText}>Create workshop and store it in backend</p>
+          <h2>Create New Workshop</h2>
+          <p>Add workshop details and meeting link</p>
 
           <input
             style={styles.input}
@@ -190,196 +206,223 @@ function App() {
             onChange={(e) => setMeetingLink(e.target.value)}
           />
 
-          <button style={styles.button} onClick={addWorkshop}>
+          <button style={styles.primaryBtn} onClick={addWorkshop}>
             Add Workshop
           </button>
         </div>
 
-        <div style={styles.list}>
-          <h2>Available Workshops</h2>
+        <div style={styles.listCard}>
+          <h2>Upcoming Workshops</h2>
 
           {workshops.length === 0 ? (
-            <div style={styles.empty}>
-              <h3>No workshops found</h3>
-              <p>Add your first workshop from the form.</p>
+            <div style={styles.emptyBox}>
+              <h3>No workshops available</h3>
+              <p>Create your first workshop to display here.</p>
             </div>
           ) : (
             workshops.map((w) => (
-              <div style={styles.workshopCard} key={w.id}>
+              <div key={w.id} style={styles.workshopCard}>
                 <div>
                   <h3>{w.title}</h3>
                   <p>{w.description}</p>
                 </div>
-
-                <a
-                  style={styles.joinBtn}
-                  href={w.meetingLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Join Meeting
+                <a href={w.meetingLink} target="_blank" rel="noreferrer">
+                  Join Now
                 </a>
               </div>
             ))
           )}
         </div>
-      </div>
+      </section>
+
+      <footer id="contact" style={styles.footer}>
+        <h3>SkillUp Academy</h3>
+        <p>Empowering students through practical learning workshops.</p>
+      </footer>
     </div>
   );
 }
 
 const styles = {
-  loginPage: {
+  page: {
     minHeight: "100vh",
-    background: "linear-gradient(135deg, #1e1b4b, #4f46e5, #9333ea)",
+    background: "#f4f7fb",
+    fontFamily: "Segoe UI, Arial, sans-serif",
+    color: "#111827",
+  },
+  authPage: {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, rgba(37,99,235,0.95), rgba(124,58,237,0.95)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200') center/cover",
     display: "grid",
     gridTemplateColumns: "1.2fr 0.8fr",
     alignItems: "center",
-    padding: "60px",
-    fontFamily: "Arial",
+    gap: "40px",
+    padding: "70px",
+    fontFamily: "Segoe UI, Arial, sans-serif",
+  },
+  heroBox: {
     color: "white",
   },
-  leftBox: {
-    padding: "40px",
-  },
-  features: {
+  heroCards: {
     display: "grid",
-    gap: "12px",
-    marginTop: "25px",
+    gap: "16px",
+    marginTop: "30px",
     fontSize: "18px",
   },
-  loginCard: {
-    background: "white",
-    color: "#111827",
-    padding: "40px",
-    borderRadius: "24px",
-    boxShadow: "0 25px 60px rgba(0,0,0,0.35)",
-  },
-  logo: {
-    color: "#4f46e5",
-    marginBottom: "5px",
-  },
-  subtitle: {
-    color: "#6b7280",
-  },
-  page: {
-    minHeight: "100vh",
-    background: "#eef2ff",
-    fontFamily: "Arial",
+  authCard: {
+    background: "rgba(255,255,255,0.95)",
+    padding: "42px",
+    borderRadius: "26px",
+    boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
   },
   navbar: {
-    background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
-    color: "white",
-    padding: "25px 45px",
+    background: "white",
+    padding: "18px 55px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    boxShadow: "0 6px 25px rgba(0,0,0,0.08)",
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
+  },
+  brand: {
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
+  },
+  logo: {
+    width: "48px",
+    height: "48px",
+    background: "linear-gradient(135deg, #2563eb, #7c3aed)",
+    color: "white",
+    borderRadius: "14px",
+    display: "grid",
+    placeItems: "center",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+  navLinks: {
+    display: "flex",
+    alignItems: "center",
+    gap: "24px",
+  },
+  heroSection: {
+    margin: "40px 55px",
+    padding: "55px",
+    borderRadius: "30px",
+    background: "linear-gradient(135deg, #2563eb, #7c3aed)",
+    color: "white",
+    display: "grid",
+    gridTemplateColumns: "1.3fr 0.7fr",
+    gap: "30px",
+  },
+  heroImage: {
+    background: "rgba(255,255,255,0.18)",
+    borderRadius: "24px",
+    padding: "35px",
   },
   stats: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "25px",
-    padding: "30px 45px",
+    margin: "0 55px 35px",
   },
   statCard: {
     background: "white",
-    padding: "25px",
-    borderRadius: "20px",
+    padding: "28px",
+    borderRadius: "22px",
     textAlign: "center",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
   },
-  container: {
+  content: {
     display: "grid",
     gridTemplateColumns: "1fr 1.4fr",
-    gap: "30px",
-    padding: "0 45px 45px",
+    gap: "32px",
+    margin: "0 55px 45px",
   },
   formCard: {
     background: "white",
-    padding: "30px",
-    borderRadius: "22px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    padding: "32px",
+    borderRadius: "24px",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
   },
-  list: {
+  listCard: {
     background: "white",
-    padding: "30px",
-    borderRadius: "22px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    padding: "32px",
+    borderRadius: "24px",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
   },
   input: {
     width: "100%",
-    padding: "14px",
-    margin: "10px 0",
-    borderRadius: "12px",
-    border: "1px solid #c7d2fe",
+    padding: "15px",
+    margin: "11px 0",
+    borderRadius: "14px",
+    border: "1px solid #d1d5db",
     fontSize: "15px",
     boxSizing: "border-box",
   },
   textarea: {
     width: "100%",
-    padding: "14px",
-    margin: "10px 0",
-    borderRadius: "12px",
-    border: "1px solid #c7d2fe",
+    padding: "15px",
+    margin: "11px 0",
+    borderRadius: "14px",
+    border: "1px solid #d1d5db",
+    minHeight: "100px",
     fontSize: "15px",
-    minHeight: "90px",
     boxSizing: "border-box",
   },
-  button: {
+  primaryBtn: {
     width: "100%",
-    padding: "14px",
-    background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
-    color: "white",
+    padding: "15px",
     border: "none",
-    borderRadius: "12px",
+    borderRadius: "14px",
+    background: "linear-gradient(135deg, #2563eb, #7c3aed)",
+    color: "white",
     fontSize: "16px",
+    fontWeight: "bold",
     cursor: "pointer",
     marginTop: "10px",
   },
-  logout: {
-    padding: "12px 22px",
-    background: "white",
-    color: "#4f46e5",
+  heroBtn: {
+    padding: "14px 26px",
     border: "none",
-    borderRadius: "12px",
-    cursor: "pointer",
+    borderRadius: "14px",
+    background: "white",
+    color: "#2563eb",
+    fontSize: "16px",
     fontWeight: "bold",
   },
+  logout: {
+    padding: "10px 18px",
+    border: "none",
+    borderRadius: "12px",
+    background: "#eef2ff",
+    color: "#2563eb",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
   workshopCard: {
-    background: "#f8fafc",
     padding: "20px",
     marginBottom: "16px",
     borderRadius: "18px",
-    borderLeft: "6px solid #4f46e5",
+    background: "#f8fafc",
+    borderLeft: "6px solid #2563eb",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  joinBtn: {
-    background: "#4f46e5",
+  emptyBox: {
+    textAlign: "center",
+    padding: "60px",
+    color: "#6b7280",
+  },
+  footer: {
+    background: "#111827",
     color: "white",
-    padding: "10px 16px",
-    borderRadius: "10px",
-    textDecoration: "none",
-  },
-  empty: {
     textAlign: "center",
-    padding: "50px",
-    color: "#6b7280",
-  },
-  smallText: {
-    color: "#6b7280",
-  },
-  hint: {
-    fontSize: "13px",
-    color: "#6b7280",
-    textAlign: "center",
-  },
-  linkText: {
-    color: "#4f46e5",
-    cursor: "pointer",
-    textAlign: "center",
-    fontWeight: "bold",
+    padding: "30px",
   },
 };
 
